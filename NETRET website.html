@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download NETREO</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: lime;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+        .btn {
+            background-color: lime;
+            color: black;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+        }
+        .description {
+            width: 80%;
+            margin: 20px auto;
+            text-align: left;
+            font-size: 18px;
+            z-index: 2;
+            position: relative;
+            opacity: 1;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="container">
+        <h1>Download NETRET</h1>
+        <button class="btn" onclick="payAndDownload('NETREO')">Download NETREO</button>
+        <button class="btn" onclick="payAndDownload('NETREOSERVER')">Download NETREO SERVER</button>
+    </div>
+
+    <div class="description">
+        <h2>DESCRIPTION:</h2>
+        <p>This application allows users to establish secure communication between the client and the server.</p>
+        <h2>HOW TO USE:</h2>
+        <p>Download the file, install it, and follow the on-screen instructions to set up secure communication.</p>
+    </div>
+
+    <script>
+        function payAndDownload(type) {
+            const paypalLink = "https://www.paypal.com/ncp/payment/9K94AVPAW22X2"; // Your PayPal link
+
+            let downloadUrl = "";
+            if (type === "NETRET") {
+                downloadUrl = "https://github.com/Guvyuvguuh/NETRET/releases/download/NETRET/NETRET.exe";
+            } else if (type === "NETRETSERVER") {
+                downloadUrl = "https://github.com/Guvyuvguuh/NETRET/releases/download/NETRET/NETRETSERVER.exe";
+            }
+
+            // Redirect to PayPal first
+            window.location.href = paypalLink;
+
+            // After payment, redirect to the download link
+            setTimeout(() => {
+                window.location.href = downloadUrl;
+            }, 5000); // Adjust delay if needed
+        }
+
+        // MATRIX RAIN ANIMATION
+        const canvas = document.getElementById("matrixCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            drops = Array(Math.floor(canvas.width / fontSize)).fill(0);
+        }
+
+        let fontSize = 18;
+        let drops = [];
+
+        resizeCanvas();
+
+        const characters = "01010101010101010101";
+
+        function drawMatrixRain() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = "#00FF00";
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters[Math.floor(Math.random() * characters.length)];
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+                
+                ctx.fillText(text, x, y);
+
+                if (y > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrixRain, 50);
+
+        window.addEventListener("resize", resizeCanvas);
+    </script>
+</body>
+</html>
